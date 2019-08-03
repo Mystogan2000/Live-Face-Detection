@@ -9,16 +9,17 @@ from time import sleep
 cascPath = "haarcascade_frontalface_default.xml"
 faceCascade = cv2.CascadeClassifier(cascPath)
 
-#For Nose
+#Creating Haar Cascade For Only Nose
 cascPath_1 = "haarcascade_mcs_nose.xml"
 noseCascade = cv2.CascadeClassifier(cascPath_1)
-#Eyes
 
-#For Eyes
+
+#Creating Haar Cascade For  Only Eyes
 cascPath_2 = "eye.xml"
 eyesCascade = cv2.CascadeClassifier(cascPath_2)
-#For Lip
-cascPath_3 = "Mouth.xml"
+
+#Creating Haar Cascade For all features
+cascPath_3 = "haarcascade_mcs_mouth.xml"
 mouthCascade = cv2.CascadeClassifier(cascPath_3)
 
 log.basicConfig(filename='webcam.log',level=log.INFO)
@@ -51,15 +52,16 @@ while True:
     nose=noseCascade.detectMultiScale(roi_gray)  
     eyes=eyesCascade.detectMultiScale(roi_gray)     
     lips=mouthCascade.detectMultiScale(roi_gray)   
-    #for (ex,ey,ew,eh) in lips:
-    #        cv2.rectangle(roi_color,(ex,ey),(ex+ew,ey+eh),(0,255,0),2)     
-    for (ex,ey,ew,eh) in eyes:
-          cv2.rectangle(roi_color,(ex,ey),(ex+ew,ey+eh),(0,127,255),2)
-    for (ex,ey,ew,eh) in nose:
-           cv2.rectangle(roi_color,(ex,ey),(ex+ew,ey+eh),(0,255,0),2)
-   
-    #Detecting Nose...
     
+    #For all features
+    for (ex,ey,ew,eh) in lips:
+           cv2.rectangle(roi_color,(ex,ey),(ex+ew,ey+eh),(0,255,0),2)     
+   #For only eyes
+   #for (ex,ey,ew,eh) in eyes:
+          #cv2.rectangle(roi_color,(ex,ey),(ex+ew,ey+eh),(0,127,255),2)
+    #For only nose
+    #for (ex,ey,ew,eh) in nose:
+    #      cv2.rectangle(roi_color,(ex,ey),(ex+ew,ey+eh),(0,255,0),2)
     
     
    
@@ -76,8 +78,6 @@ while True:
     if cv2.waitKey(1) & 0xFF == ord('q'):
         break
 
-    # Display the resulting frame
-    cv2.imshow('Video', frame)
 
 # When everything is done, release the capture
 video_capture.release()
